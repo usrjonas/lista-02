@@ -10,24 +10,36 @@ using std::sort;
 
 namespace graal {
 
-/*! 
- * Exemplo de documentação seguindo o formato Doxygen
+/**
+ * @brief Função que encontra e retorna a primeira ocorrencia do menor e maior elmentos em um range [first,last).
  *
- * @tparam Itr iterator para o range.
- * @tparam Compare o tipo de uma função bool(const T &a, const T &b)
+ * @tparam Itr Iterator para o range.
+ * @tparam Compare o tipo de uma função bool(const T &a, const T &b).
  *
- * @param first Ponteiro para o primeiro elemento do range
- * @param last Ponteiro para a posição logo após o último elemento do range
- * @param cmp A função de comparação que retorna true quando o primeiro parâmetro é menor do que o segundo
+ * @param first Ponteiro para o primeiro elemento do range.
+ * @param last Ponteiro para a posição logo após o último elemento do range.
+ * @param cmp A função de comparação que retorna true quando o primeiro parâmetro é menor do que o segundo.
  *
- * @return Um std::pair contendo o menor e maior elemento, nesta ordem
- *
+ * @return Um std::pair contendo o menor e maior elemento, nesta ordem.
  */
 template <typename Itr, typename Compare >
 std::pair<Itr, Itr> minmax( Itr first, Itr last, Compare cmp )
 {
-    // TODO
-    return std::make_pair( first, first );
+    if ( first >= last )
+        return std::make_pair( first, first );
+
+    Itr smaller = first;
+    Itr biggest = first;
+
+    while ( ++first < last )
+    {
+        if ( cmp( * first, * smaller ) )
+            smaller = first;
+        else if ( ! cmp( * first, * biggest ) )
+            biggest = first;
+    }
+
+    return std::make_pair( smaller, biggest );
 }
 
 }
